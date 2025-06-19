@@ -6,12 +6,20 @@ const listingSchema = new Schema({
         type: String,
         required: true
     },
-    descriptios: String,
-    image:{
-        default: "https://unsplash.com/photos/mountains-stand-out-against-a-colorful-sunset-pzbm-wp8fa0",
+    description: String,
+    image: {
+    filename: String,
+    url: String,
+     default: "",
         type: String,
-        set: (v) => v === "" ? "https://unsplash.com/photos/mountains-stand-out-against-a-colorful-sunset-pzbm-wp8fa0" : v,
-    },
+       set: (v) => v === "" ? "" : v,
+  },
+   
+        
+    //    // default: "https://unsplash.com/photos/mountains-stand-out-against-a-colorful-sunset-pzbm-wp8fa0",
+    //     type: String,
+    //     set: (v) => v === "" ? "" : v,
+    // },
     price: Number,
     location: String,
     country: String
