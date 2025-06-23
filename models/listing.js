@@ -10,9 +10,9 @@ const listingSchema = new Schema({
     image: {
     filename: String,
     url: String,
-     default: "",
-        type: String,
-       set: (v) => v === "" ? "" : v,
+    //  default: "",
+    //     type: String,
+    //    set: (v) => v === "" ? "" : v,
   },
    
         
@@ -22,7 +22,8 @@ const listingSchema = new Schema({
     // },
     price: Number,
     location: String,
-    country: String
+    country: String,
+    
 
 });
 
