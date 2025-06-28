@@ -5,6 +5,8 @@ const Listing = require("./models/listing.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const warpAsync = require("./utils/warpAsync.js");
+const ExpressError = require("./utils/expressError.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/rentRetreat";
 
@@ -33,7 +35,7 @@ app.get("/", (req, res) => {
 
 // Index Route
 
-app.get("/Listings", async (req, res) => {
+app.get("/listings", async (req, res) => {
   const allListing = await Listing.find({});
   res.render("./listings/index.ejs", { allListing });
 });
@@ -54,12 +56,13 @@ app.get("/listings/:id", async (req, res) => {
 
 // create Route
 
-app.post("/listings", async (req, res) => {
+app.post("/listings", warpAsync(async (req, res, next) => {
   const newListing = new Listing(req.body.listing);
   await newListing.save();
-  res.redirect("listings");
-});
-
+  res.redirect("/listings");
+  
+})
+);
 // Edit  Router
 app.get("/listings/:id/edit", async (req, res) => {
   let { id } = req.params;
@@ -96,5 +99,15 @@ app.delete("/listings/:id", async (req, res) => {
 //     res.send("succesfull testing");
 
 // });
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError(404, "Page Not Found"))
+});
+
+app.use((err, req, res, next) => {
+  let {statusCode, message} = err;
+  res.status(statusCode).send(message);
+});
+
 
 app.listen(5000, () => [console.log("Server is listening to port 5000")]);
