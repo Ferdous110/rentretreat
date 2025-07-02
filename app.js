@@ -33,6 +33,9 @@ app.use(express.static(path.join(__dirname, "/public")));
 // app.get("/, (req, res) => {
 //   res.send("hi i am root");
 // });
+app.get("/", (req, res) => {
+  res.redirect("/listings"); 
+});
 
 // Index Route
 
